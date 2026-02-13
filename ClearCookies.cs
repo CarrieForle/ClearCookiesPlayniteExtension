@@ -2,7 +2,7 @@ using Playnite.SDK;
 using Playnite.SDK.Plugins;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Windows;
 
 namespace ClearCookies
 {
@@ -27,19 +27,16 @@ namespace ClearCookies
 		{
 			yield return new MainMenuItem
 			{
-				MenuSection = "@",
+				MenuSection = $"@{ResourceProvider.GetString("LOCClearCookies")}",
 				Description = ResourceProvider.GetString("LOCClearCookiesMenu"),
 				Action = (arg) =>
 				{
-					var res = ClearCookiesPopup.Show(PlayniteApi);
+					var domains = ClearCookiesPopup.Show(PlayniteApi);
 
-					if (res is null)
+					if (domains is null)
 					{
 						return;
 					}
-
-					var domains = res.Trim().Split('\n')
-						.Select(s => s.Trim());
 
 					using (var webView = PlayniteApi.WebViews.CreateOffscreenView())
 					{
@@ -50,6 +47,28 @@ namespace ClearCookies
 					}
 
 					PlayniteApi.Dialogs.ShowMessage($"{ResourceProvider.GetString("LOCClearCookiesSuccess")}\n\n{string.Join("\n", domains)}", ResourceProvider.GetString("LOCClearCookies"));
+				}
+			};
+
+			yield return new MainMenuItem
+			{
+				MenuSection = $"@{ResourceProvider.GetString("LOCClearCookies")}",
+				Description = ResourceProvider.GetString("LOCClearCookiesAllMenu"),
+				Action = (arg) =>
+				{
+					var res = PlayniteApi.Dialogs.ShowMessage(ResourceProvider.GetString("LOCClearCookiesAllWarning"), ResourceProvider.GetString("LOCClearCookies"), MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+					if (res != MessageBoxResult.Yes)
+					{
+						return;
+					}
+
+					using (var webView = PlayniteApi.WebViews.CreateOffscreenView())
+					{
+						webView.DeleteDomainCookiesRegex(".*");
+					}
+
+					PlayniteApi.Dialogs.ShowMessage(ResourceProvider.GetString("LOCClearCookiesAllSuccess"), ResourceProvider.GetString("LOCClearCookies"));
 				}
 			};
 		}

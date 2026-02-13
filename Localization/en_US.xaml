@@ -3,7 +3,12 @@
 					xmlns:sys="clr-namespace:System;assembly=mscorlib">
 	<sys:String x:Key="LOCClearCookies">Clear Cookies</sys:String>
 	<sys:String x:Key="LOCClearCookiesMenu">Clear cookies</sys:String>
+	<sys:String x:Key="LOCClearCookiesAllMenu">Clear all cookies</sys:String>
 	<sys:String x:Key="LOCClearCookiesInstruction" xml:space="preserve">Put the domain names to clear cookies on.
 Separated by newline.</sys:String>
+	<sys:String x:Key="LOCClearCookiesAllWarning" xml:space="preserve">You are clearing all the cookies and you will be signed out in most platforms.
+
+Continue to proceed?</sys:String>
 	<sys:String x:Key="LOCClearCookiesSuccess">Cleared cookies from the following domains:</sys:String>
+	<sys:String x:Key="LOCClearCookiesAllSuccess">Successfully cleared all cookies.</sys:String>
 </ResourceDictionary>

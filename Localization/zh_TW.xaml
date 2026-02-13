@@ -3,6 +3,11 @@
 					xmlns:sys="clr-namespace:System;assembly=mscorlib">
 	<sys:String x:Key="LOCClearCookies">Clear Cookies</sys:String>
 	<sys:String x:Key="LOCClearCookiesMenu">清除 cookies</sys:String>
+	<sys:String x:Key="LOCClearCookiesAllMenu">清除所有的 cookies</sys:String>
 	<sys:String x:Key="LOCClearCookiesInstruction">輸入要清除 cookies 的網域。可換行輸入多個網域</sys:String>
+	<sys:String x:Key="LOCClearCookiesAllWarning" xml:space="preserve">您將要清除所有 cookies。這會使您登出大部分的平台。
+
+確定要開始清除嗎？</sys:String>
 	<sys:String x:Key="LOCClearCookiesSuccess">已清除以下網域的 cookies:</sys:String>
+	<sys:String x:Key="LOCClearCookiesAllSuccess">已清除所有  cookies</sys:String>
 </ResourceDictionary>

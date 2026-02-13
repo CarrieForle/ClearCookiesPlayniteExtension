@@ -11,12 +11,12 @@
 	</UserControl.Resources>
 	<DockPanel Margin="20" FocusManager.FocusedElement="{Binding ElementName=Input}">
 		<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-			<Button Content="{DynamicResource LOCCancelLabel}" IsCancel="True"  Margin="0,0,20,0" />
-			<Button Name="ConfirmButton" Content="{DynamicResource LOCConfirmLabel}" IsDefault="True" />
+			<Button Content="{DynamicResource LOCCancelLabel}" d:Content="Cancel" IsCancel="True" Margin="0,0,20,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+			<Button Name="ConfirmButton" Content="{DynamicResource LOCConfirmLabel}" d:Content="Confirm"  IsDefault="True" VerticalAlignment="Center" Click="Send" HorizontalAlignment="Right" IsEnabled="false" />
 		</StackPanel>
 		<DockPanel Margin="0,0,0,20">
-			<TextBlock DockPanel.Dock="Top" Text="{DynamicResource LOCClearCookiesInstruction}" TextWrapping="Wrap" Margin="0,0,0,5" />
-			<TextBox Name="Input" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+			<TextBlock DockPanel.Dock="Top" Text="{DynamicResource LOCClearCookiesInstruction}" d:Text="Put the domain names to clear cookies on." TextWrapping="Wrap" Margin="0,0,0,5" />
+			<TextBox Name="Input" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextChanged="InputUpdate" />
 		</DockPanel>
 	</DockPanel>
 </UserControl>

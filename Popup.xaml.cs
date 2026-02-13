@@ -1,47 +1,58 @@
 using Playnite.SDK;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace ClearCookies
 {
 	public partial class ClearCookiesPopup : UserControl
 	{
 		public string Domain { get; set; }
+		public Window Window { get; }
 
-		public ClearCookiesPopup()
+		public ClearCookiesPopup(IPlayniteAPI api)
 		{
 			InitializeComponent();
-		}
 
-		public static string Show(IPlayniteAPI api)
-		{
-			var window = api.Dialogs.CreateWindow(new WindowCreationOptions
+			Window = api.Dialogs.CreateWindow(new WindowCreationOptions
 			{
 				ShowMinimizeButton = false,
 				ShowMaximizeButton = false,
 			});
-			var popup = new ClearCookiesPopup();
 
-			window.Height = 350;
-			window.Width = 400;
-			window.Title = ResourceProvider.GetString("LOCClearCookies");
-			window.Content = popup;
-			window.Owner = api.Dialogs.GetCurrentAppWindow();
-			window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			Window.Height = 350;
+			Window.Width = 400;
+			Window.Title = ResourceProvider.GetString("LOCClearCookies");
+			Window.Content = this;
+			Window.Owner = api.Dialogs.GetCurrentAppWindow();
+			Window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+		}
 
-			popup.ConfirmButton.Click += (s, e) =>
-			{
-				popup.Domain = popup.Input.Text;
-				window.DialogResult = true;
-				window.Close();
-			};
+		public static string[] Show(IPlayniteAPI api)
+		{
+			var popup = new ClearCookiesPopup(api);
 
-			if (!(window.ShowDialog() ?? false) || string.IsNullOrWhiteSpace(popup.Domain))
+			if (!(popup.Window.ShowDialog() ?? false))
 			{
 				return null;
 			}
 
-			return popup.Domain;
+			return popup.Domain.Trim().Split('\n')
+				.Select(s => s.Trim())
+				.ToArray();
+		}
+
+		private void Send(object sender, RoutedEventArgs e)
+		{
+			Domain = Input.Text;
+			Window.DialogResult = true;
+			Window.Close();
+		}
+
+		private void InputUpdate(object sender, TextChangedEventArgs e)
+		{
+			ConfirmButton.IsEnabled = !string.IsNullOrWhiteSpace(Input.Text);
 		}
 	}
 }
